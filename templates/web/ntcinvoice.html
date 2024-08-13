@@ -1,0 +1,275 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<style>
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+
+  .invoice {
+      text-align: center;
+      color: #007bff;
+      font-size: 27px;
+      font-weight: 700;
+  }
+
+  .invoice-column {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  span {
+      font-weight: 600;
+  }
+
+  .brand_name {
+      text-align: center;
+      border-bottom: 2px solid #007bff;
+  }
+
+  .invoice_date {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1%;
+  }
+
+  .invoice_details {
+      margin-top: 10px;
+      margin-bottom: 10px;
+  }
+
+  .sender_details {
+      width: 50%;
+  }
+
+  .goods {
+      width: 20%;
+  }
+
+  .weight.frirate {
+      width: 5%;
+  }
+
+  .parti.destination {
+      width: 10%;
+  }
+
+  .rest {
+      width: 30%;
+  }
+
+  .tdtop {
+    vertical-align: top;
+  }
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    /* text-align: center; */
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  td {
+    vertical-align: bottom;
+  }
+</style>
+
+
+
+<div class="main-wrapper">
+  <div class="page-wrapper">
+    <div class="submit-section mb-3">
+      <a href="/pdf-invoice?invoice={{invoice.id}}"><button class="btn btn-primary btn-sm">
+        Download
+      </button></a>  <a href="/update-invoice?invoice={{invoice.id}}"><button class="btn btn-warning btn-sm"> Update</button></a>
+    </div>
+    <div class="container" style="padding: 50px 50px 0px 50px;">
+      <div class="row">
+        <div class="invoice">Invoice</div>
+        <div class="invoice-column">
+          <div class="letterhead">
+            <div class="company-address">
+              Reg No. <span>{{COMPANY_REG_NO}}</span>
+            </div>
+            <div class="company-address">
+              State Code:-<span> {{COMPANY_STATE_CODE}}</span>
+            </div>
+            <div class="company-address">
+              Service REGD. <span>{{COMPANY_SERVICE_REGD}}</span>
+            </div>
+          </div>
+       
+          <div class="letterhead">
+            <div class="company-address">
+              MOBILE No. <span>{% for mobile in MOBILE_NUMBERS %}
+                {{mobile}}, 
+              {%endfor%}</span>
+            </div>
+            <div class="company-address">
+              EMAIL:- <span>{{PROFILE_EMAIL}}</span>
+            </div>
+          </div>
+        </div>
+    
+        <div class="brand_name">        
+          <div class="company-address">
+              <h1 style="color: #c55810;">{{COMPANY_NAME}}</h1>
+              <p>{{COMPANY_ADDRESS}}</p>
+          </div>        
+        </div>
+      </div>
+    
+      <div class="invoice_date">      
+          <div>Invoice No. <span>{{invoice.invoice_number}}</span></div>
+          <div>Date. <span style="text-transform: capitalize;">{{invoice.date}}</span></div>
+      </div>    
+     
+      <div class="invoice_details">
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th class="sender_details" colspan="2">From:- <span> {{invoice.from_field|capfirst}}</span></th>
+                <th colspan="2">To:- <span> {{invoice.to_field|capfirst}}</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2">Consignor Name:- <span> {{invoice.consigner.name|capfirst}}</span></td>
+                <td colspan="2">Consignee Name:- <span> {{invoice.consignee.name|capfirst}}</span></td>
+              </tr>
+              <tr>
+                <td colspan="2">Address:- <span> {{invoice.consigner.address|capfirst}}</span></td>
+                <td colspan="2">Address:- <span> {{invoice.consignee.address|capfirst}}</span></td>
+              </tr>
+              <tr>
+                <td>GST IN:- <span>{{invoice.consigner.gst_no}}</span>  </td>
+                <td>State Code:- <span>{{invoice.consigner.state_code}}</span></td>
+                <td>GST IN:- <span>{{invoice.consignee.gst_no}}</span></td>
+                <td>State Code:- <span>{{invoice.consignee.state_code}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+      </div> 
+    
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <thead>
+              <tr>
+                <th class="goods"><span>NATURE OF GOODS</span></th>
+                <th class="weight"><span> WEIGHT</span></th> 
+                <th class="frirate"><span>FRIGHT RATE</span></th>
+                <th class="parti"><span>PARTICULAR</span></th>
+                <th class="destination"><span> DESTINATION FRIGHT</span></th> 
+                <th class="rest"><span></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="7" class="tdtop">{{invoice.nature_of_goods|capfirst}}</td>
+                <td rowspan="7" class="tdtop">{{invoice.weight}}</td>
+                <td rowspan="7" class="tdtop">{{invoice.freight_rate}}</td>
+                <td>FRIGHT</td>
+                <td>{{invoice.freight_total}}</td>
+                <td>Truck No. <strong>{{invoice.vehicle.truck_no}}</strong></td>
+              </tr>
+    
+              <tr>
+                <td>Toll Tax</td>                     
+                <td>{{invoice.toll_tax}}</td>
+                <td>Driver Name:- <span>{{invoice.vehicle.driver_name|capfirst}}</span></td>
+              </tr>
+    
+              <tr>                  
+                <td>GR + SR Charges</td>
+                <td>{{invoice.gr_sr_charges}}</td>
+                <td>Address:- <span>{{invoice.vehicle.driver_address|capfirst}}</span></td>
+              </tr>
+    
+              <tr>                  
+                <td>Fooding Charges</td>
+                <td>{{invoice.fooding}}</td>
+                <td>CONTACT No. {{invoice.vehicle.contact_no}}</td>
+              </tr>
+    
+              <tr>                  
+                <td>Kata Charges</td>
+                <td>{{invoice.kata}}</td>
+                <td>ENGINE No.<span>{{invoice.vehicle.engine_no}}</span></td>
+              </tr>
+    
+              <tr>                  
+                <td rowspan="2">Total GST Amount %</td>
+                <td rowspan="2">{{invoice.gst}}</td>
+                <td>Chasis No.<span>{{invoice.vehicle.chasis_no}}</span></td>
+              </tr>
+
+              <tr>                  
+               
+                <td>DL No. <span>{{invoice.vehicle.dl_no}}</span></td>
+              </tr>
+    
+              <tr>
+                <td colspan="3">Delivery At:- <span style="text-transform: capitalize;"> {{invoice.to_field|capfirst}}</span></td>                  
+                <td>TOTAL AMOUNT</td>
+                <td>{{invoice.payable_amt}}</td>
+                <td>OWNER NAME SAME AS ABOVE<br><span>{{invoice.vehicle.owner_name|capfirst}}</span></td>
+              </tr>
+    
+              <tr>
+                <td colspan="3">E-WAY BILL NO. <span>  {{invoice.e_way_bill_no}}</span></td>                  
+                <td>ADVANCE</td>
+                <td>{{invoice.advance}}</td>
+                <td>Address<br><span>{{invoice.vehicle.owner_address|capfirst}}</span></td>
+              </tr>
+    
+              <tr>
+                <td colspan="3" rowspan="2">BANK DETAILS:-<br>
+                  <p>{{COMPANY_NAME}}<br>
+                    BANK NAME - {{COMPANY_BANK_NAME}}<br> 
+                    ACCOUNT NO. {{COMPANY_ACCOUNT_NUMBER}}<br>
+                     IFSC CODE. - {{COMPANY_IFSC}}</p>                      
+                </td>                  
+                <td colspan="2">{{COMPANY_BILLING_STATEMENT}}</td>
+                <td>PAN:- <span>  {{invoice.vehicle.owner_pan}}</span></td>                     
+              </tr>
+    
+              <tr>
+                <td colspan="2"><br><br><b>DRIVER SIGN.........................</b></td>
+                <td colspan="2">ATTACHED WITH PROP:-<br>
+                  <span>{{COMPANY_NAME}}<br></span>
+                  <span><b>AUTH SIGN....................................</b></span>
+                </td>                                
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div> 
+    </div>
+    <div class="submit-section">
+      <a href="/pdf-invoice?invoice={{invoice.id}}"><button class="btn btn-primary btn-sm ">
+        Download
+      </button></a> <a href="/update-invoice?invoice={{invoice.id}}"><button class="btn btn-warning btn-sm"> Update</button></a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}    
+

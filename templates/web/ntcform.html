@@ -1,0 +1,361 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+  <div class="main-wrapper">   
+    <div class="page-wrapper">
+      <div class="content container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <h4 class="card-title mb-0">NTC User Details Form</h4>
+              </div>
+              <div class="card-body">
+                <form id="invoiceForm" method="post">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h4 class="card-title">Consignor Details</h4>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignor Name:</label
+                            >
+                            <input type="text" name="consigner_name" required placeholder="Name" class="form-control"   />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">From:</label>
+                            <input type="text"  name="invoice_from_field" placeholder="From" required class="form-control"  />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">State Code:</label>
+                            <input type="number" name="consigner_state_code" placeholder="State Code" class="form-control"  />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignor GST Number:</label
+                            >
+                            <input type="text" name="consigner_gst_no" placeholder="GST No" class="form-control"  />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                       
+                        <div class="col-md-12">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignor Address:</label
+                            >
+                            <textarea name="consigner_address" placeholder="Address" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <h4 class="card-title">Consignee Details</h4>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignee Name:</label
+                            >
+                            <input type="text" name="consignee_name" placeholder="Name" required class="form-control"  />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">To:</label>
+                            <input type="text" name="invoice_to_field" placeholder="To" required class="form-control"  />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">State Code:</label>
+
+                            <input type="number" name="consignee_state_code" placeholder="State Code" class="form-control"  />
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignee GST Number:</label
+                            >
+                            <input type="text" name="consignee_gst_no" placeholder="GST No" class="form-control"  />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">                        
+                        <div class="col-md-12">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label"
+                              >Consignee Address:</label
+                            >
+                            <textarea name="consignee_address" placeholder="Address" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                
+                    <h4 class="card-title">Goods & Driver Information</h4>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label"
+                            >Nature Of Goods</label
+                          >
+                          <input type="text"  name="invoice_nature_of_goods" placeholder="Nature of Goods" required class="form-control"  />
+                          
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Weight</label>
+                          <input type="number" id="weight" oninput="calculateTotalFreight()" name="invoice_weight" placeholder="Weight" class="form-control"  />
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Frieght Rate</label>
+                          <input type="text" id="freightrate" oninput="calculateTotalFreight()" name="invoice_freight_rate" placeholder="Freight Rate" class="form-control"  />
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Frieght Total</label>
+                          <input type="number" id="totalfright" oninput="calculateTotal()" name="invoice_freight_total" placeholder="Freight Total" class="form-control"  />
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Total GST</label>
+                          <input type="text" id="gst" oninput="calculateTotal()" name="invoice_gst" placeholder="GST" class="form-control"  />
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">E-Way Bill</label>
+                          <input type="text" name="invoice_e_way_bill_no" placeholder="E-Way Bill No" class="form-control"  />
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Date</label>
+                          <div class="cal-icon">
+                            <input class="form-control floating datetimepicker" name="invoice_date" type="text" required>
+                        </div>
+                        </div>
+                      </div>
+                  
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Toll Tax</label>
+                          <input type="number" id="toll" oninput="calculateTotal()" name="invoice_toll_tax" placeholder="Toll Tax" class="form-control"  />
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">GR+SR Charges</label>
+                          <input type="number" id="grsr" oninput="calculateTotal()" name="invoice_gr_sr_charges" placeholder="GR/SR Charges" class="form-control"  />
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="input-block mb-3">
+                          <label class="col-form-label">Fooding</label>
+                          <input type="number" id="food" oninput="calculateTotal()" name="invoice_fooding" placeholder="Fooding" class="form-control"  />
+                        </div>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">Kata</label>
+                            <input type="number" id="kata" oninput="calculateTotal()" name="invoice_kata" placeholder="Kata" class="form-control"  />
+                          </div>
+                        </div>
+
+                      <div class="col-md-2">                       
+                          <label class="col-form-label">Select Driver</label>
+                          <select name="vehicle_id" id="vehicle_id" class="form-control select">
+                            {% for vc in vh%}
+                            <option value="{{vc.id}}">{{vc.truck_no}}</option>
+                            {%endfor%}
+                          </select>
+                      </div>
+
+                      <div class="col-md-2">
+                          <div class="input-block mb-3">
+                            <label class="col-form-label">Advance</label>
+                            <input type="number" id="advance" oninput="calculateTotal()" name="invoice_advance" placeholder="Advance" class="form-control"  />
+                          </div>
+                      </div>
+                      <div class="input-block col-3">
+                        <label class="col-form-label">Total Amount</label>
+                        <input type="number" id="totalpayable" name="invoice_payable_amt" placeholder="Payable Amount" class="form-control" />
+                    </div>
+                  </div>
+                    </div>                  
+                      
+
+                    <div class="submit-section mb-3">
+                      <button class="btn btn-primary submit-btn" type="submit">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateTotalFreight() {
+        var weight = parseFloat(document.getElementById('weight').value);
+        var freightrate = parseFloat(document.getElementById('freightrate').value);
+
+        if (!isNaN(weight) && !isNaN(freightrate)) {
+            var totalFreight = weight * freightrate;
+            if (totalFreight == 0) {
+                totalFreight = weight + freightrate;
+            }
+            document.getElementById('totalfright').value = totalFreight.toFixed(2);
+        } else {
+            document.getElementById('totalfright').value = '';
+        }
+        calculateTotal(); // Call the main calculation function
+    }
+
+
+    function calculateTotal() {
+    var totalFreight = parseFloat(document.getElementById('totalfright').value);
+    var gst = parseFloat(document.getElementById('gst').value);
+    var food = parseFloat(document.getElementById('food').value);
+    var toll = parseFloat(document.getElementById('toll').value);
+    var grsr = parseFloat(document.getElementById('grsr').value);
+    var kata = parseFloat(document.getElementById('kata').value);
+    var advance = parseFloat(document.getElementById('advance').value);
+
+    if (!isNaN(totalFreight)) {
+        var totalPayable = totalFreight;
+
+        // Check if gst input is not empty
+        if (gst !== '') {
+            if (!isNaN(gst)) {
+                var gstAmount = (totalFreight * gst) / 100;
+                totalPayable += gstAmount;
+            }
+        }
+
+        // Add other charges if they are not empty
+        if (!isNaN(food)) {
+            totalPayable += food;
+        }
+        if (!isNaN(kata)) {
+            totalPayable += kata;
+        }
+        if (!isNaN(toll)) {
+            totalPayable += toll;
+        }
+        if (!isNaN(grsr)) {
+            totalPayable += grsr;
+        } 
+        if (!isNaN(advance)) {
+            totalPayable -= advance;
+        }
+
+        document.getElementById('totalpayable').value = totalPayable.toFixed(2);
+    } else {
+        document.getElementById('totalpayable').value = '';
+    }
+}
+
+</script>
+
+
+
+  <script>
+    $("#invoiceForm").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+
+        var data = {
+            consigner: {
+                name: form.find("input[name='consigner_name']").val(),
+                gst_no: form.find("input[name='consigner_gst_no']").val(),
+                state_code: form.find("input[name='consigner_state_code']").val(),
+                address: form.find("textarea[name='consigner_address']").val(),
+            },
+            consignee: {
+                name: form.find("input[name='consignee_name']").val(),
+                gst_no: form.find("input[name='consignee_gst_no']").val(),
+                state_code: form.find("input[name='consignee_state_code']").val(),
+                address: form.find("textarea[name='consignee_address']").val(),
+            },
+            vehicle: {
+                id: form.find("select[name='vehicle_id']").val(),
+            },
+            invoice: {
+                from_field: form.find("input[name='invoice_from_field']").val(),
+                to_field: form.find("input[name='invoice_to_field']").val(),
+                nature_of_goods: form.find("input[name='invoice_nature_of_goods']").val(),
+                weight: form.find("input[name='invoice_weight']").val(),
+                freight_rate: form.find("input[name='invoice_freight_rate']").val(),
+                freight_total: form.find("input[name='invoice_freight_total']").val(),
+                toll_tax: form.find("input[name='invoice_toll_tax']").val(),
+                gr_sr_charges: form.find("input[name='invoice_gr_sr_charges']").val(),
+                fooding: form.find("input[name='invoice_fooding']").val(),
+                kata: form.find("input[name='invoice_kata']").val(),
+                gst: form.find("input[name='invoice_gst']").val(),
+                advance: form.find("input[name='invoice_advance']").val(),
+                payable_amt: form.find("input[name='invoice_payable_amt']").val(),
+                e_way_bill_no: form.find("input[name='invoice_e_way_bill_no']").val(),
+                date: form.find("input[name='invoice_date']").val(),
+            }
+        };
+
+        console.log(data)
+        $.ajax({
+            url: '/add/invoice/', 
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: function(response) {
+            // alert('Invoice Submitted Successfully!');
+
+            console.log(response); // Success Response
+            // Optionally, redirect or clear the form here using:
+            window.location.href = '/';
+            // form.trigger('reset'); // Clear the form for the next input
+            },
+            error: function(xhr, status, error) {
+            alert('Error submitting invoice: ' + error);
+            console.error(error); // Log error
+            }
+            });
+            });
+ </script>  
+
+
+
+
+
+ {% endblock %}

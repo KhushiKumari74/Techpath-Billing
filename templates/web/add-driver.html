@@ -1,0 +1,165 @@
+{% extends 'main/base.html' %} 
+{% block content %}
+<div class="main-wrapper">
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-0">
+            <div class="card-header">
+              <h4 class="card-title mb-0">Add Driver Details</h4>
+            </div>
+            <div class="card-body">
+              <form id="driverform" method="post">
+                {% csrf_token %}
+                <h4 class="card-title">Vehical & Driver Information</h4>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Truck Number</label>
+                      <input
+                        type="text"
+                        name="truck_no"
+                        placeholder="Truck Number"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Driver Name</label>
+                      <input
+                        type="text"
+                        name="driver_name"
+                        placeholder="Driver Name"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Driver Address</label>
+                      <input
+                        type="text"
+                        name="driver_address"
+                        placeholder="Driver Address"
+                        required
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Contact No.</label>
+                      <input
+                        type="number"
+                        name="contact_no"
+                        placeholder="Contact No"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Engine No.</label>
+                      <input
+                        type="text"
+                        name="engine_no"
+                        placeholder="Engine No"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Chasis No.</label>
+                      <input
+                        type="text"
+                        name="chasis_no"
+                        placeholder="Chasis No"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">DL No.</label>
+                      <input
+                        type="text"
+                        name="dl_no"
+                        placeholder="Driver's License No"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Owner Name</label>
+                      <input
+                        type="text"
+                        name="vehicle_owner_name"
+                        placeholder="Owner Name"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Owner Contact</label>
+                      <input
+                        type="text"
+                        name="owner_contact"
+                        placeholder="Owner Contact"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Owner Pan</label>
+                      <input
+                        type="text"
+                        name="owner_pan"
+                        placeholder="Owner Pan"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="input-block mb-3">
+                      <label class="col-form-label">Owner Address</label>
+                      <input
+                        type="text"
+                        name="owner_address"
+                        placeholder="Owner Address"
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="submit-section">
+                    <button class="btn btn-primary submit-btn" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

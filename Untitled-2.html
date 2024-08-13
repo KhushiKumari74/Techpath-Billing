@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Invoice</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Add New Invoice Information</h1>
+
+<form id="invoiceForm">
+    <h2>Consigner Details</h2>
+    <input type="text" name="consigner_name" placeholder="Name" required><br>
+    <input type="text" name="consigner_gst_no" placeholder="GST No" required><br>
+    <input type="number" name="consigner_state_code" placeholder="State Code" required><br>
+    <textarea name="consigner_address" placeholder="Address" required></textarea><br>
+
+    <h2>Consignee Details</h2>
+    <input type="text" name="consignee_name" placeholder="Name" required><br>
+    <input type="text" name="consignee_gst_no" placeholder="GST No" required><br>
+    <input type="number" name="consignee_state_code" placeholder="State Code" required><br>
+    <textarea name="consignee_address" placeholder="Address" required></textarea><br>
+
+    <h2>Vehicle Details</h2>
+    <input type="text" name="vehicle_truck_no" placeholder="Truck No" required><br>
+    <input type="text" name="vehicle_driver_name" placeholder="Driver Name" required><br>
+    <textarea name="vehicle_driver_address" placeholder="Driver Address" required></textarea><br>
+    <input type="number" name="vehicle_contact_no" placeholder="Contact No" required><br>
+    <input type="text" name="vehicle_engine_no" placeholder="Engine No" required><br>
+    <input type="text" name="vehicle_chasis_no" placeholder="Chasis No" required><br>
+    <input type="text" name="vehicle_dl_no" placeholder="Driver's License No" required><br>
+    <input type="text" name="vehicle_owner_name" placeholder="Owner Name" required><br>
+    <textarea name="vehicle_owner_address" placeholder="Owner Address" required></textarea><br>
+    <input type="text" name="vehicle_owner_contact" placeholder="Owner Contact" required><br>
+    <input type="text" name="vehicle_owner_pan" placeholder="Owner PAN" required><br>
+
+    <h2>Invoice Details</h2>
+    <input type="text" name="invoice_from_field" placeholder="From" required><br>
+    <input type="text" name="invoice_to_field" placeholder="To" required><br>
+    <input type="text" name="invoice_nature_of_goods" placeholder="Nature of Goods" required><br>
+    <input type="number" name="invoice_weight" placeholder="Weight" required><br>
+    <input type="text" name="invoice_freight_rate" placeholder="Freight Rate" required><br>
+    <input type="text" name="invoice_freight_total" placeholder="Freight Total" required><br>
+    <input type="text" name="invoice_toll_tax" placeholder="Toll Tax" required><br>
+    <input type="text" name="invoice_gr_sr_charges" placeholder="GR/SR Charges" required><br>
+    <input type="number" name="invoice_fooding" placeholder="Fooding" required><br>
+    <input type="text" name="invoice_kata" placeholder="Kata" required><br>
+    <input type="text" name="invoice_gst" placeholder="GST" required><br>
+    <input type="number" name="invoice_advance" placeholder="Advance" required><br>
+    <input type="text" name="invoice_payable_amt" placeholder="Payable Amount" required><br>
+    <input type="text" name="invoice_e_way_bill_no" placeholder="E-Way Bill No" required><br>
+    <input type="datetime-local" name="invoice_date" placeholder="Date"><br>
+    
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    $("#invoiceForm").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+
+        var data = {
+            consigner: {
+                name: form.find("input[name='consigner_name']").val(),
+                gst_no: form.find("input[name='consigner_gst_no']").val(),
+                state_code: form.find("input[name='consigner_state_code']").val(),
+                address: form.find("textarea[name='consigner_address']").val(),
+            },
+            consignee: {
+                name: form.find("input[name='consignee_name']").val(),
+                gst_no: form.find("input[name='consignee_gst_no']").val(),
+                state_code: form.find("input[name='consignee_state_code']").val(),
+                address: form.find("textarea[name='consignee_address']").val(),
+            },
+            vehicle: {
+                truck_no: form.find("input[name='vehicle_truck_no']").val(),
+                driver_name: form.find("input[name='vehicle_driver_name']").val(),
+                driver_address: form.find("textarea[name='vehicle_driver_address']").val(),
+                contact_no: form.find("input[name='vehicle_contact_no']").val(),
+                engine_no: form.find("input[name='vehicle_engine_no']").val(),
+                chasis_no: form.find("input[name='vehicle_chasis_no']").val(),
+                dl_no: form.find("input[name='vehicle_dl_no']").val(),
+                owner_name: form.find("input[name='vehicle_owner_name']").val(),
+                owner_address: form.find("textarea[name='vehicle_owner_address']").val(),
+                owner_contact: form.find("input[name='vehicle_owner_contact']").val(),
+                owner_pan: form.find("input[name='vehicle_owner_pan']").val(),
+            },
+            invoice: {
+                from_field: form.find("input[name='invoice_from_field']").val(),
+                to_field: form.find("input[name='invoice_to_field']").val(),
+                nature_of_goods: form.find("input[name='invoice_nature_of_goods']").val(),
+                weight: form.find("input[name='invoice_weight']").val(),
+                freight_rate: form.find("input[name='invoice_freight_rate']").val(),
+                freight_total: form.find("input[name='invoice_freight_total']").val(),
+                toll_tax: form.find("input[name='invoice_toll_tax']").val(),
+                gr_sr_charges: form.find("input[name='invoice_gr_sr_charges']").val(),
+                fooding: form.find("input[name='invoice_fooding']").val(),
+                kata: form.find("input[name='invoice_kata']").val(),
+                gst: form.find("input[name='invoice_gst']").val(),
+                advance: form.find("input[name='invoice_advance']").val(),
+                payable_amt: form.find("input[name='invoice_payable_amt']").val(),
+                e_way_bill_no: form.find("input[name='invoice_e_way_bill_no']").val(),
+                date: form.find("input[name='invoice_date']").val(),
+            }
+        };
+
+        // $.ajax({
+        //     url: '/add/invoice/', 
+        //     type: 'POST',
+        //     contentType: 'application/json; charset=utf-8',
+        //     data: JSON.stringify(data),
+        //     dataType: 'json',
+        //     success: function(response) {
+        //     alert('Invoice Submitted Successfully!');
+        //     console.log(response); // Success Response
+        //     // Optionally, redirect or clear the form here using:
+        //     // window.location.href = 'success_page'; OR
+        //     form.trigger('reset'); // Clear the form for the next input
+        //     },
+        //     error: function(xhr, status, error) {
+        //     alert('Error submitting invoice: ' + error);
+        //     console.error(error); // Log error
+        //     }
+        //     });
+        //     });
+</script>
+
+</body>
+</html>

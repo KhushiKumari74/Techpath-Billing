@@ -1,0 +1,16 @@
+/venv
+venv/
+*.log
+*.pot
+*.pyc
+apps/billing/__pycache__/
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/
+db.sqlite3
+__pycache__/
+*.py[cod]
+*$py.class
+nohup.out
+.env
+ntc/__pycache__/

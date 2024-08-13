@@ -1,0 +1,127 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="page-title">Driver</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Driver List</li>
+                            </ul>
+                        </div>
+                        <div class="col-auto float-end ms-auto">
+                            <a href="{% url 'add_driver' %}" class="btn add-btn"></i>Add Driver</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="example" class="display table table-stripped mb-0">
+                                <thead>
+                                    <tr>                                       
+                                        <th>Owner Name</th>
+                                        <th>Vehicle Number</th>
+                                        <th>Driver Name</th>
+                                        <th>Driver Address</th>
+                                        <th>Contact Number</th>   
+                                        <th>Action</th>                          
+                                    </tr>
+                                </thead>
+                                <tbody>   
+                                    {%for vh in vehicles%}                                                          
+                                    <tr>
+                                        <td>{{vh.owner_name}}</td>
+                                        <td>{{vh.truck_no}}</td>
+                                        <td>{{vh.driver_name}}</td>
+                                        <td>{{vh.driver_address}}</td>
+                                        <td>{{vh.contact_no}}</td>
+                                        <td>
+                                            <a href="/viewdriver-details?id={{vh.id}}"><button class="btn btn-success btn-sm"><i style="font-size:14px" class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                            <a href="/updatedriver-ladger?id={{vh.id}}"><button class="btn btn-warning btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                        </td>
+                                    </tr>     
+                                    {%endfor%}                                           
+                                </tbody>
+                            </table>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+<script>
+        $(document).ready(function () {
+    // Setup - add a text input to each footer cell
+    $('#example thead tr')
+        .clone(true)
+        .addClass('filters')
+        // .appendTo('#example thead');
+ 
+    var table = $('#example').DataTable({
+        orderCellsTop: true,
+        fixedHeader: true,
+        initComplete: function () {
+            var api = this.api();
+ 
+            // For each column
+            api
+                .columns()
+                .eq(0)
+                .each(function (colIdx) {
+                    // Set the header cell to contain the input element
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    if (colIdx === 5 || colIdx === 6) { // Check if column index is 4 (5th column)
+                    $(cell).html(''); // Disable input
+                } else {
+                    $(cell).html(''); // Enable input for other columns
+                }
+
+ 
+                    // On every keypress in this input
+                    $(
+                        'input',
+                        $('.filters th').eq($(api.column(colIdx).header()).index())
+                    )
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+ 
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+ 
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                                .setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                });
+        },
+    });
+});
+</script>
+
+
+{% endblock%}

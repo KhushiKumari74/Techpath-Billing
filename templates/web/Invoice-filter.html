@@ -1,0 +1,188 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="page-title">Invoice</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Invoice</li>
+                            </ul>
+                        </div>
+                        <div class="col-auto float-end ms-auto">
+                            <a href="{% url 'create_invoice' %}" class="btn add-btn"></i>Add Invoice</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% comment %}
+                <div class="row filter-row">
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12">
+                        <div class="input-block mb-3 form-focus">
+                            <input type="text" class="form-control floating">
+                            <label class="focus-label">Owner Name</label>
+                        </div>
+                    </div>
+                
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12">
+                        <div class="input-block mb-3 form-focus select-focus">
+                            <select class="select floating">
+                                <option> -- Select -- </option>
+                                <option>APKM978DVS</option>
+                                <option>APKM978DVS</option>                               
+                                <option>APKM978DVS</option>
+                            </select>
+                            <label class="focus-label">Invoice No.</label>
+                        </div>
+                    </div>
+                  
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12">
+                        <div class="input-block mb-3 form-focus">
+                            <input type="text" class="form-control floating">
+                            <label class="focus-label">Consignee Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12">
+                        <div class="input-block mb-3 form-focus">
+                            <input type="text" class="form-control floating">
+                            <label class="focus-label">Consignor Name</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12">
+                        <div class="input-block mb-3 form-focus ">
+                            <div class="cal-icon">
+                                <input class="form-control floating datetimepicker" type="text">
+                            </div>
+                            <label class="focus-label">Date</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-2 col-lg-3 col-xl-2 col-12 float-end ms-auto">
+                        <a href="#" class="btn btn-success w-100"> Search </a>
+                    </div>
+                    
+                </div>
+                {% endcomment %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="example" class="display table table-stripped mb-0">
+                                <thead>
+                                    <tr>                                       
+                                        <th>Consignor Name</th>
+                                        <th>Consignee Name</th>
+                                        <th>Invoice No.</th>
+                                        <th>E-way Bill No.</th>
+                                        <th>Owner Name</th>
+                                        <th>Date</th>      
+                                        <th>Action</th>                          
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                    {% for invoice in invoice_list %}
+                                    
+                                    <tr>
+                                        <!-- <td><a href="/view-invoice?invoice={{invoice.invoice_number}}">{{ invoice.consigner.name }}</a></td> -->
+                                        <td><a href="/view-invoice?invoice={{invoice.id}}">{{ invoice.consigner.name }}</a></td>
+                                        <td>{{ invoice.consignee.name }} </td>
+                                        <td>{{ invoice.invoice_number }}</td>
+                                        <td>{{ invoice.e_way_bill_no }}</td>
+                                        <td>{{ invoice.vehicle.owner_name }}</td>
+                                        <td>{{invoice.date}}</td>
+                                        <td>
+                                            <a href="/view-invoice?invoice={{invoice.id}}"><button class="btn btn-success btn-sm"> <i style="font-size:14px" class="fa fa-eye" aria-hidden="true"></i></button></a>
+                                            <a href="/pdf-invoice?invoice={{invoice.id}}"><button class="btn btn-primary btn-sm">  <i class="fa fa-download" aria-hidden="true"></i></button></a>
+                                            <a href="/update-invoice?invoice={{invoice.id}}"><button class="btn btn-warning btn-sm">  <i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+
+                                        </td>
+                                    </tr> 
+                                
+                                    {% endfor %}                                   
+                                </tbody>
+                            </table>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+<script>
+        $(document).ready(function () {
+    // Setup - add a text input to each footer cell
+    $('#example thead tr')
+        .clone(true)
+        .addClass('filters')
+        .appendTo('#example thead');
+ 
+    var table = $('#example').DataTable({
+        orderCellsTop: true,
+        fixedHeader: true,
+        initComplete: function () {
+            var api = this.api();
+ 
+            // For each column
+            api
+                .columns()
+                .eq(0)
+                .each(function (colIdx) {
+                    // Set the header cell to contain the input element
+                    var cell = $('.filters th').eq(
+                        $(api.column(colIdx).header()).index()
+                    );
+                    var title = $(cell).text();
+                    if (colIdx === 5 || colIdx === 6) { // Check if column index is 4 (5th column)
+                    $(cell).html(''); // Disable input
+                } else {
+                    $(cell).html('<input type="text" placeholder="' + title + '" />'); // Enable input for other columns
+                }
+
+ 
+                    // On every keypress in this input
+                    $(
+                        'input',
+                        $('.filters th').eq($(api.column(colIdx).header()).index())
+                    )
+                        .off('keyup change')
+                        .on('change', function (e) {
+                            // Get the search value
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+ 
+                            var cursorPosition = this.selectionStart;
+                            // Search the column for that value
+                            api
+                                .column(colIdx)
+                                .search(
+                                    this.value != ''
+                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                        : '',
+                                    this.value != '',
+                                    this.value == ''
+                                )
+                                .draw();
+                        })
+                        .on('keyup', function (e) {
+                            e.stopPropagation();
+ 
+                            $(this).trigger('change');
+                            $(this)
+                                .focus()[0]
+                                .setSelectionRange(cursorPosition, cursorPosition);
+                        });
+                });
+        },
+    });
+});
+</script>
+
+
+{% endblock%}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>  
+</head>
+<body>
+  <div style="border: 0px solid black;">
+      <div style="text-align: center; font-size: 25px; font-weight: 700; color: #06035f; padding-top: 50px;">Invoice</div>      
+      <table style="border: 0px; margin-top: 5px; font-size: 15px;">
+        <tr>
+          <td>Reg No.<span style="font-weight: 700;"> {{COMPANY_REG_NO}} </span></td>
+          <td style="text-align: right;">MOBILE No. <span style="font-weight: 700;">
+            {% for mobile in MOBILE_NUMBERS %}
+            {{mobile}}, 
+          {%endfor%}
+          </span></td>
+        </tr>
+
+        <tr>
+          <td>State Code. <span style="font-weight: 700;">09 </span></td>
+          <td style="text-align: right;"> EMAIL:- <span style="font-weight: 700;">{{PROFILE_EMAIL}}</td>
+        </tr>
+
+        <tr>
+          <td>Service REGD. <span style="font-weight: 700;">{{COMPANY_SERVICE_REGD}}</span></td>
+          <td style="text-align: right;"></td>
+        </tr>
+      </table>   
+                  
+        <div style="text-align: center; border-bottom: 1px solid #06035f;">
+            <h1 style="font-size: 25px; color: #c55810; margin-top: 0px;">{{COMPANY_NAME}}<br>
+            <span style="font-size: 18px; color: black;">{{COMPANY_ADDRESS}}</span></h1>
+        </div>        
+     
+        <table>
+          <tr style="font-size: 13px;">
+            <td>Invoice No. <span style="font-weight: 500;">{{invoice.invoice_number}}</span></td>
+            <td style="text-align: right;">Date. <span style="font-weight: 500;">{{invoice.date}}</span></td>
+          </tr>
+        </table>  
+    
+        <table style="margin-top: 10px; border: 1px thin black; font-size: 12px;">
+          <thead style="height: 30px;">
+            <tr>
+              <th colspan="2" style="line-height: normal;"><span style="font-weight: 600;">From:-</span>  {{invoice.from_field|capfirst}}</th>
+              <th colspan="2" style="line-height: normal;"><span style="font-weight: 600;">To:- </span>  {{invoice.to_field|capfirst}}</th>
+            </tr>
+          </thead>
+          <tbody style="height: 30px; line-height: normal;">
+            <tr style="margin-left: 10px;">
+              <td colspan="2"><span style="font-weight: 00;">Consignor Name:- </span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consigner.name|capfirst}}</span></td>
+              <td colspan="2"><span style="font-weight: 00;">Consignee Name:- </span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consignee.name|capfirst}}</span></td>
+            </tr>
+            <tr style="margin-left: 10px;">
+              <td colspan="2"><span style="font-weight: 00;">Address:-</span> <span style="font-size: 12px; font-weight: 600;"> {{invoice.consigner.address|capfirst}}</span></td>
+              <td colspan="2"><span style="font-weight: 00;">Address:-</span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consignee.address|capfirst}}</span> </td>
+            </tr>
+            <tr style="margin-left: 10px;">
+              <td > <span style="font-weight: 00;">GST IN:-</span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consigner.gst_no}}</span></td>
+              <td ><span style="font-weight: 00;">State Code:- </span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consigner.state_code}}</span></td>
+              <td ><span style="font-weight: 00;">GST IN:- </span> <span style="font-size: 12px; font-weight: 600;">{{invoice.consignee.gst_no}}</span></td>
+              <td ><span style="font-weight: 00;">State Code:- </span><span style="font-size: 12px; font-weight: 600;">{{invoice.consignee.state_code}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+ 
+   
+        <table style="margin-top: 15px; border: 1px solid black; line-height: normal;">
+          <thead>
+            <tr style="padding: 5px;">
+              <th><span>NATURE OF GOODS</span></th>
+              <th><span> WEIGHT</span></th>
+              <th><span>FRIGHT RATE</span></th>
+              <th><span>PARTICULAR</span></ths=>
+              <th><span> DESTINATION FRIGHT</span></th>
+            </tr>
+          </thead>
+          <tbody style="height: 35px; font-size: 10px;">
+            <tr style="margin-left: 5px;">
+              <td rowspan="7" style="vertical-align: top;padding-top:5px; font-size: 14px; font-weight: 600;">{{invoice.nature_of_goods|capfirst}}</td>
+              <td rowspan="7" style="text-align: center; vertical-align: top;padding-top:5px; font-size: 14px; font-weight: 600;">{{invoice.weight}}</td>
+              <td rowspan="7" style="text-align: center; vertical-align: top;padding-top:5px; font-size: 14px; font-weight: 600;">{{invoice.freight_rate}}</td>
+              <td>FRIGHT</td>
+              <td style="text-align: center; font-size: 14px; font-weight: 600;">{{invoice.freight_total}}</td>
+              <td colspan="2"><span style="font-weight: 600;">Truck No.</span> <span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.truck_no}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">
+              <td>Toll Tax</td>                    
+              <td style="text-align: center; font-size: 14px; font-weight: 600;">{{invoice.toll_tax}}</td>
+              <td colspan="2"><span style="font-weight: 600;">Driver Name:- </span><span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.driver_name|capfirst}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">                  
+              <td>GR + SR Charges</td>
+              <td style="text-align: center; font-size: 14px; font-weight: 600;">{{invoice.gr_sr_charges}}</td>
+              <td colspan="2"><span style="font-weight: 600;">Address:- </span><span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.driver_address|capfirst}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">                  
+              <td>Fooding Charges</td>
+              <td style="text-align: center;font-size: 14px; font-weight: 600;">{{invoice.fooding}}</td>
+              <td colspan="2"><span style="font-weight: 600;">Contact No.</span> <span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.contact_no}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">                  
+              <td >Kata Charges</td>
+              <td style="text-align: center; font-size: 14px; font-weight: 600;">{{invoice.kata}}</td>
+              <td colspan="2"><span style="font-weight: 600;"> Engine No.</span><span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.engine_no}}</span>
+              </td>
+               
+            </tr>
+            <tr style="margin-left: 5px;">                  
+              <td rowspan="2">Total GST Amount(%)</td>
+              <td rowspan="2"style="text-align: center;font-size: 14px; font-weight: 600;">{{invoice.gst}} </td>
+              <td colspan="2"><span style="font-weight: 600;"> Chasis No.</span><span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.chasis_no}}</span>
+              </td>
+               
+            </tr>
+            <tr style="margin-left: 5px;">                  
+              
+            
+              <td colspan="2"><span style="font-weight: 600;">DL No.</span> <span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.dl_no}}</span>
+               
+              </td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">
+              <td colspan="3"><span style="text-transform: capitalize; font-weight: 600;">Delivery At:- </span>  <span style="font-size: 14px; font-weight: 600;">{{invoice.to_field|capfirst}}</span></td>                  
+              <td>TOTAL AMOUNT</td>
+              <td style="text-align: center; font-weight: 800; font-size: 15px; color: red;" >{{invoice.payable_amt}}</td>
+              <td colspan="2"><span style="font-weight: 600;">OWNER NAME:-</span>  <span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.owner_name|capfirst}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">
+              <td colspan="3"><span style="font-weight: 600;">E-WAY BILL NO. </span> <span style="font-size: 14px; font-weight: 600;">{{invoice.e_way_bill_no}}</span></td>                  
+              <td>ADVANCE</td>
+              <td style="text-align: center; color: green; font-size: 12px; font-weight: 500;">{{invoice.advance}}</td>
+              <td colspan="2"><span style="font-weight: 600;">Address:- </span> <span style="font-size: 11px; font-weight: 400;">{{invoice.vehicle.owner_address|capfirst}}</span></td>
+            </tr>
+ 
+            <tr style="margin-left: 5px;">
+              <td colspan="3" rowspan="2" style="margin-top: -1%;"><span style="font-weight: 600;">BANK DETAILS:-</span><br>
+                {{COMPANY_NAME}}<br>
+                  BANK NAME - {{COMPANY_BANK_NAME}}<br>
+                  ACCOUNT NO. {{COMPANY_ACCOUNT_NUMBER}}<br>
+                  IFSC CODE. - {{COMPANY_IFSC}}                     
+              </td>                  
+              <td colspan="2" style="padding: 1px;">{{COMPANY_BILLING_STATEMENT}}</td>
+              <td colspan="2"><span style="font-weight: 600;">PAN:-</span>  <span style="font-size: 14px; font-weight: 600;">{{invoice.vehicle.owner_pan}}</></td>                    
+            </tr>
+ 
+            <tr style="margin-left: 5px; height: 55px;">
+              <td colspan="2"><br><br><b>DRIVER SIGN.........................</b></td>
+              <td colspan="2" style="padding-top: 3px;">ATTACHED WITH PROP:-<br>
+                <span>{{COMPANY_NAME}}<br></span>
+                <span><b>AUTH SIGN....................................</b></span>
+              </td>                                
+            </tr>
+           
+          </tbody>
+        </table>
+  </div>
+</body>
+</html>
+ 
+
+   
+  
